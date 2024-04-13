@@ -1,8 +1,10 @@
+import Tasks from "./components/Tasks";
+
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </>
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-4">
+      <Tasks />
+    </div>
   );
 }
 

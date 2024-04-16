@@ -1,9 +1,17 @@
 import { useState } from "react";
 import AddTaskModal from "./AddTaskModal";
+import { useSelector } from "react-redux";
+import TaskCard from "./TaskCard";
 
 const Tasks = () => {
   let [isOpen, setIsOpen] = useState(false);
+  const { tasks } = useSelector((state) => state?.tasks);
 
+  const pendingTasks = tasks?.filter((task) => task?.status === "pending");
+  const ongoingTasks = tasks?.filter((task) => task?.status === "ongoing");
+  const completedTasks = tasks?.filter((task) => task?.status === "completed");
+
+  //Function for opening modal
   function openModal() {
     setIsOpen(true);
   }
@@ -23,13 +31,28 @@ const Tasks = () => {
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
         <div>
-          <h4 className="bg-blue-300 font-medium p-2">Pending</h4>
+          <h4 className="bg-red-300 font-medium p-2">Pending</h4>
+          <div className="space-y-3 mt-5">
+            {pendingTasks?.map((task) => (
+              <TaskCard key={task?.id} task={task} />
+            ))}
+          </div>
         </div>
         <div>
           <h4 className="bg-blue-300 font-medium p-2">Ongoing</h4>
+          <div className="space-y-3 mt-5">
+            {ongoingTasks?.map((task) => (
+              <TaskCard key={task?.id} task={task} />
+            ))}
+          </div>
         </div>
         <div>
-          <h4 className="bg-blue-300 font-medium p-2">Completed</h4>
+          <h4 className="bg-green-300 font-medium p-2">Completed</h4>
+          <div className="space-y-3 mt-5">
+            {completedTasks?.map((task) => (
+              <TaskCard key={task?.id} task={task} />
+            ))}
+          </div>
         </div>
       </div>
     </div>

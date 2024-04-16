@@ -1,11 +1,23 @@
 /* eslint-disable react/prop-types */
 import { useForm } from "react-hook-form";
 import Modal from "./Modal";
+import { useDispatch } from "react-redux";
+import { addTask } from "../redux/features/tasks/taskSlice";
+import { v4 as uuidv4 } from "uuid";
 
 const AddTaskModal = ({ isOpen, setIsOpen }) => {
   const { register, handleSubmit, reset } = useForm();
+  const dispatch = useDispatch();
+
+  //Function for closing modal
+  const onClose = () => setIsOpen(false);
+
+  // Handle add task submit button
   const onSubmit = (data) => {
     console.log(data);
+    const id = uuidv4();
+    dispatch(addTask({ id, ...data }));
+    onClose();
     // reset();
   };
   return (
@@ -19,6 +31,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
               id="title"
               {...register("title")}
               className="rounded-md"
+              required
             />
           </div>
 
@@ -29,6 +42,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
               id="description"
               {...register("description")}
               className="rounded-md"
+              required
             />
           </div>
 
@@ -39,21 +53,8 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
               id="deadline"
               {...register("deadline")}
               className="rounded-md"
+              required
             />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label htmlFor="assignTo">Assign To</label>
-            <select
-              type=""
-              id="assignTo"
-              {...register("assignTo")}
-              className="rounded-md"
-            >
-              <option value="">(Select one)</option>
-              <option value="Imtiaz">Imtiaz</option>
-              <option value="Sakib">Sakib</option>
-            </select>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -63,6 +64,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
               id="priority"
               {...register("priority")}
               className="rounded-md"
+              required
             >
               <option value="">(Select one)</option>
               <option value="High">High</option>
@@ -74,7 +76,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
           <div className="space-x-4">
             <button
               className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-              onClick={() => setIsOpen(false)}
+              onClick={() => onClose()}
             >
               Cancel
             </button>

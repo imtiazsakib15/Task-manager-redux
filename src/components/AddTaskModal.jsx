@@ -3,20 +3,20 @@ import { useForm } from "react-hook-form";
 import Modal from "./Modal";
 import { useDispatch } from "react-redux";
 import { addTask } from "../redux/features/tasks/taskSlice";
-import { v4 as uuidv4 } from "uuid";
 
 const AddTaskModal = ({ isOpen, setIsOpen }) => {
   const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
 
   //Function for closing modal
-  const onClose = () => setIsOpen(false);
+  const onClose = () => {
+    reset();
+    setIsOpen(false);
+  };
 
   // Handle add task submit button
   const onSubmit = (data) => {
-    console.log(data);
-    const id = uuidv4();
-    dispatch(addTask({ id, ...data }));
+    dispatch(addTask(data));
     onClose();
     // reset();
   };
@@ -75,8 +75,8 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
 
           <div className="space-x-4">
             <button
-              className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-              onClick={() => onClose()}
+              className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+              onClick={onClose}
             >
               Cancel
             </button>

@@ -2,40 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
-  tasks: [
-    {
-      id: "850c6604-5c47-4db4-858a-0cb5sfe5b2e71e",
-      status: "pending",
-      title: "asdf",
-      description: "sd",
-      deadline: "2024-04-16",
-      priority: "Medium",
-    },
-    {
-      id: "850c6604-5c47-4db4-858a-0cb5de5b2e71e",
-      status: "pending",
-      title: "asdf",
-      description: "sd",
-      deadline: "2024-04-16",
-      priority: "Medium",
-    },
-    {
-      id: "850c6604-5c47-4db4-858a-0cb5ecd5b2e71e",
-      status: "ongoing",
-      title: "asdf",
-      description: "sd",
-      deadline: "2024-04-16",
-      priority: "Medium",
-    },
-    {
-      id: "850c6604-5c47-4db4-858a-0cb5dae5b2e71e",
-      status: "completed",
-      title: "asdf",
-      description: "sd",
-      deadline: "2024-04-16",
-      priority: "Medium",
-    },
-  ],
+  tasks: [],
 };
 
 const taskSlice = createSlice({
@@ -51,12 +18,14 @@ const taskSlice = createSlice({
       state.tasks = result;
     },
     updateTask: (state, { payload }) => {
-      const target = state.tasks.find((task) => task?.id !== payload?.id);
-      target.status = payload?.status;
+      const target = state.tasks.find((task) => task?.id === payload?.id);
+      const updatedStatus =
+        payload?.status === "pending" ? "ongoing" : "completed";
+      target.status = updatedStatus;
     },
   },
 });
 
-export const { addTask, removeTask } = taskSlice.actions;
+export const { addTask, removeTask, updateTask } = taskSlice.actions;
 
 export default taskSlice.reducer;

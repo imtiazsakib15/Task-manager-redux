@@ -50,6 +50,10 @@ const taskSlice = createSlice({
       const result = state.tasks.filter((task) => task?.id !== payload);
       state.tasks = result;
     },
+    updateTask: (state, { payload }) => {
+      const target = state.tasks.find((task) => task?.id !== payload?.id);
+      target.status = payload?.status;
+    },
   },
 });
 
